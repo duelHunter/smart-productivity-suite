@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 //import { IoCallOutline } from "react-icons/io5";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HeavenlyLogo from "../../public/Logo.svg";
 import sps_logo from "../../public/assets/SPS.png"
 import { LuBadgeHelp } from "react-icons/lu";
 
@@ -37,7 +36,7 @@ const Navbar = () => {
             <div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link href="/" legacyBehavior>
                     <a className="flex items-center space-x-3 rtl:space-x-reverse">
-                        <img src={sps_logo.src} className="h-8" alt="Heavenly Logo"/>
+                        <img src={sps_logo.src} className="h-8" alt="SPS Logo"/>
                     </a>
                 </Link>
                 <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -90,8 +89,8 @@ const Navbar = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/about" legacyBehavior>
-                                <a className={getLinkClasses("/about")}>About Us</a>
+                            <Link href="/about-us" legacyBehavior>
+                                <a className={getLinkClasses("/about-us")}>About Us</a>
                             </Link>
                         </li>
                         <li>
