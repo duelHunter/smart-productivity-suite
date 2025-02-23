@@ -11,6 +11,10 @@ const SOUND_MODELS: SoundModel[] = [
     url: "https://router.huggingface.co/hf-inference/models/facebook/fastspeech2-en-ljspeech",
   },
   {
+    name: "Suno - bark",
+    url: "https://router.huggingface.co/hf-inference/models/suno/bark",
+  },
+  {
     name: "ESPNET - Ljspeech",
     url: "https://api-inference.huggingface.co/models/espnet/kan-bayashi_ljspeech_vits",
   },
