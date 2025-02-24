@@ -3,6 +3,7 @@ import Tool from "./ui/Tool";
 
 
 const toolsData = [
+    { title: "Text to Speech (Voice Powered)", description: "English text convert to audio", category: "voice tool", categoryColor: "bg-purple-600", link: "/text-to-speech" },
     { title: "Sinhala Typing (Voice Powered)", description: "Sinhala Voice Typing and Singlish to Sinhala Support", category: "Sinhala Tools", categoryColor: "bg-purple-600", link: "/singlish" },
     { title: "Invoice Generator (AI)", description: "AI Powered Human Level Invoice Generator", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/invoice-generator" },
     { title: "CV Generator (AI)", description: "AI Powered CV Generator for Your Next Job", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/cv-generator" },
