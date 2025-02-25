@@ -25,7 +25,7 @@ jobs:
             cd smart-productivity-suite
             cd frontend
             git pull origin main
-            docker build -t anyName .
-            docker run -p 3000:3000 anyName
+            docker build -t smartprod .
+            docker run -p 3000:3000 smartprod
  
           EOF
