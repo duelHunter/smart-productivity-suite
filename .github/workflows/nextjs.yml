@@ -26,6 +26,6 @@ jobs:
             cd frontend
             git pull origin main
             docker build -t smartprod .
-            docker run -p 3000:3000 smartprod
+            docker run -d -p 3000:3000 smartprod
  
           EOF
