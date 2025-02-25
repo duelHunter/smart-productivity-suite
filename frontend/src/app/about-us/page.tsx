@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar'
 import React from 'react'
-import sps_logo from '../../../public/assets/SPS.png'
 
 const page = () => {
   return (
