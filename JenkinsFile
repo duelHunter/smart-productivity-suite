@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+    
+    environment {
+        ImageRegistry = 'duelhunter' // Docker Hub username
+        EC2_IP = '54.171.233.251'  // Replace with your EC2 instance's public IP
+    }
+
+    stages {
+        
+        stage('SCM Checkout') {
+            steps {
+                retry(3) {
+                    git branch: 'main', url: 'https://github.com/duelHunter/smart-productivity-suite.git'
+                }
+            }
+        }
+        
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhubpassword-id', variable: 'dockerhubpassword')]) {
+                    script {
+                        sh 'docker login -u duelhunter -p $dockerhubpassword'
+                    }
+                }
+            }
+        }
+        
+        stage("Build Docker Image") {
+            steps {
+                script {
+                    echo "Building Docker Image..."
+                    sh 'cd frontend && docker build -t ${ImageRegistry}/frontendimage:${BUILD_NUMBER} .'
+                }
+            }
+        }
+        
+        stage("Push Docker Image to DockerHub") {
+            steps {
+                script {
+                    echo "Pushing Image to Docker Hub..."
+                    sh 'docker push ${ImageRegistry}/frontendimage:${BUILD_NUMBER}'
+                }
+            }
+        }
+
+        
+
+        // stage('Build Docker Image') {
+        //     steps {
+        //         sh 'cd frontend && docker build -t duelhunter/frontendimage:$BUILD_NUMBER .'
+        //     }
+        // }
+
+        // stage('Stop and Remove Existing Container') {
+        //     steps {
+        //         script {
+        //             sh 'docker stop frontendcontainer || true'
+        //             sh 'docker rm frontendcontainer || true'
+        //         }
+        //     }
+        // }
+
+        // stage('Run the Container') {
+        //     steps {
+        //         sh 'docker run -d -p 3000:3000 --name frontendcontainer duelhunter/frontendimage:$BUILD_NUMBER'
+        //     }
+        // }
+    }
+    
+    post {
+        always {
+            echo "Cleaning up workspace..."
+            cleanWs()
+        }
+    }
+    
+    
+}
