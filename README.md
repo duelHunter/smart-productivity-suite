@@ -131,7 +131,7 @@ The application uses GitHub Actions for CI/CD. Each push to main triggers:
 2. Create a feature branch
 3. Commit changes
 4. Push to the branch
-5. Create a Pull Request
+5. Create a Pull Request.
 
 ## Team Members
 - Senarathna GMLD (EG/2020/4202)
