@@ -9,7 +9,7 @@ Smart Productivity Suite is a comprehensive web-based platform offering AI-drive
 - **Text-to-Speech**: Convert written text into natural-sounding speech
 - **Speech-to-Text**: Transcribe spoken words into written text
 - **Paraphraser**: Rephrase text while maintaining original meaning
-
+tt
 ## Tech Stack
 ### Frontend
 - Next.js
