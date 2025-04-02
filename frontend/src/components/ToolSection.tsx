@@ -3,9 +3,9 @@ import Tool from "./ui/Tool";
 
 
 const toolsData = [
-    { title: "Sinhala Typing (Voice Powered)", description: "Sinhala Voice Typing and Singlish to Sinhala Support", category: "Sinhala Tools", categoryColor: "bg-purple-600", link: "/singlish" },
-    { title: "Invoice Generator (AI)", description: "AI Powered Human Level Invoice Generator", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/invoice-generator" },
-    { title: "CV Generator (AI)", description: "AI Powered CV Generator for Your Next Job", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/cv-generator" },
+    { title: "Voice Typing (English)", description: "English Voice Typing....", category: "Voice Tools", categoryColor: "bg-purple-600", link: "/voicetotext" },
+    { title: "QR Genarator", description: "QR Genarator.....", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/qr-gen" },
+    { title: "SVG to PNG converter", description: "SVG to PNG converter....", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/svgtopng" },
     { title: "Minio", description: "Mini Car with Stones", category: "Games", categoryColor: "bg-red-500", link: "/minio" },
     { title: "TV", description: "All the TV Channels in Sri Lanka", category: "Other Tools", categoryColor: "bg-red-600", link: "/tv" },
     { title: "AI Teacher", description: "Your AI Powered English-Speaking Teacher", category: "AI Tools", categoryColor: "bg-yellow-500", link: "/ai-teacher" },
