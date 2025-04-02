@@ -1,0 +1,16 @@
+# Ignore node modules
+node_modules/
+
+# Ignore version control stuff
+.git
+.gitignore
+
+# Ignore logs
+*.log
+
+# Ignore build artifacts
+dist/
+build/
+
+# Ignore env files
+.env
