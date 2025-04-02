@@ -1,0 +1,31 @@
+name: CI/CD Pipeline front-end smart-productivity-suite
+
+on:
+  push:
+    branches:
+      - main  # Change to your production branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy to Server
+        run: |
+          ssh -T -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd smart-productivity-suite
+            cd frontend
+            git pull origin main
+            docker build -t smartprod .
+            docker run -d -p 3000:3000 smartprod
+ 
+          EOF
