@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import sps_logo from "../../public/assets/SPS.png"
 import { LuBadgeHelp } from "react-icons/lu";
+import Image from 'next/image';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +37,13 @@ const Navbar = () => {
             <div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link href="/" legacyBehavior>
                     <a className="flex items-center space-x-3 rtl:space-x-reverse">
-                        <img src={sps_logo.src} className="h-8" alt="SPS Logo"/>
+                        <Image 
+                            src={sps_logo.src} 
+                            alt="SPS Logo" 
+                            width={200} 
+                            height={200} 
+                            className="h-8"
+                        />
                     </a>
                 </Link>
                 <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">

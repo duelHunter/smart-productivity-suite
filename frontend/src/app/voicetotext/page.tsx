@@ -1,51 +1,72 @@
 "use client";
-
 import Navbar from "@/components/Navbar";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-const page = () => {
-  const [text, setText] = useState("");
-  const [isListening, setIsListening] = useState(false);
-  let recognition: SpeechRecognition | null = null;
+const Page = () => {
+  const [Text, setText] = useState("");
+  const [IsRecording, setIsRecording] = useState(false);
+  const [AudioBlob, setAudioBlob] = useState<Blob | null>(null);
+  let mediaRecorder: MediaRecorder | null = null;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const SpeechRecognition =
-        window.SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = "en-US";
-
-        recognition.onresult = (event) => {
-          let transcript = "";
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
-          }
-          setText(transcript);
-        };
-
-        recognition.onend = () => {
-          setIsListening(false);
-        };
-      }
+  const startRecording = async () => {
+    if (!navigator.mediaDevices || !window.MediaRecorder) {
+      alert("Audio recording is not supported in this browser.");
+      return;
     }
-  }, []);
 
-  const startListening = () => {
-    if (recognition) {
-      recognition.start();
-      setIsListening(true);
-    } else {
-      alert("Speech recognition is not supported in this browser.");
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      const chunks: BlobPart[] = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const AudioBlob = new Blob(chunks, { type: "audio/wav" });
+        setAudioBlob(AudioBlob);
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error("Error starting recording:", error);
     }
   };
 
-  const stopListening = () => {
-    if (recognition) {
-      recognition.stop();
-      setIsListening(false);
+  const stopRecording = () => {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const uploadAudio = async () => {
+    if (!AudioBlob) {
+      alert("No audio recorded.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", AudioBlob, "recording.wav");
+
+    try {
+      const response = await fetch("/api/voice/transcribe", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (data.transcript) {
+        setText(data.transcript);
+      } else {
+        alert("Error transcribing audio.");
+      }
+    } catch (error) {
+      console.error("Error sending audio:", error);
     }
   };
 
@@ -56,18 +77,17 @@ const page = () => {
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-3xl font-bold">Voice to Text</h1>
 
-          {/* Start & Stop Buttons */}
           <div className="mt-6">
-            {!isListening ? (
+            {!IsRecording ? (
               <button
-                onClick={startListening}
+                onClick={startRecording}
                 className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
               >
                 Start Recording 🎙
               </button>
             ) : (
               <button
-                onClick={stopListening}
+                onClick={stopRecording}
                 className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
               >
                 Stop Recording ⏹
@@ -75,9 +95,17 @@ const page = () => {
             )}
           </div>
 
-          {/* Display Transcribed Text */}
+          {AudioBlob && (
+            <button
+              onClick={uploadAudio}
+              className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Transcribe Audio
+            </button>
+          )}
+
           <div className="mt-6 p-4 border rounded bg-gray-100 min-h-[100px] text-left">
-            {text || "Start speaking..."}
+            {Text || "Start speaking..."}
           </div>
         </div>
       </section>
@@ -85,4 +113,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

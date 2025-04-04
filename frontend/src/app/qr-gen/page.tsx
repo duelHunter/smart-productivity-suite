@@ -2,6 +2,8 @@
 
 import Navbar from "@/components/Navbar";
 import React, { useState } from "react";
+import Image from "next/image"; 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const QRGenerator = () => {
   const [text, setText] = useState("");
@@ -11,9 +13,23 @@ const QRGenerator = () => {
     if (!text.trim()) return;
 
     // Backend API URL
-    const apiUrl = `http://localhost:8080/api/qrcode/generate?text=${encodeURIComponent(text)}`;
+    const apiUrl = `${API_URL}/api/qrcode/generate?text=${encodeURIComponent(text)}`;
+    try {
+      const response = await fetch(apiUrl, {
+        method: "GET",
+      });
 
-    setQrUrl(apiUrl); // Set generated QR code URL
+      if (!response.ok) {
+        throw new Error("Failed to generate QR code");
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setQrUrl(url);
+    }catch (error) {
+      console.error("Error generating QR code:", error);
+    }
+
   };
 
   return (
@@ -43,7 +59,13 @@ const QRGenerator = () => {
           {/* Display QR Code */}
           {qrUrl && (
             <div className="mt-6 flex justify-center">
-              <img src={qrUrl} alt="QR Code" className="border shadow-lg" />
+              <Image 
+                src={qrUrl} 
+                alt="QR Code" 
+                width={200} 
+                height={200} 
+                className="border shadow-lg"
+              />
             </div>
           )}
         </div>

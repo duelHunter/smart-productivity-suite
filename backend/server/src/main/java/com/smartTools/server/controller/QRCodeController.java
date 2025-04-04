@@ -8,6 +8,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/qrcode")
+@CrossOrigin
 public class QRCodeController {
 
     @GetMapping("/generate")

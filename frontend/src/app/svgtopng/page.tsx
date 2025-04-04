@@ -2,10 +2,12 @@
 
 import Navbar from "@/components/Navbar";
 import React, { useState } from "react";
+import Image from "next/image"; 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const page = () => {
+const Page = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [pngUrl, setPngUrl] = useState("");
+  const [PngUrl, setPngUrl] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -20,7 +22,7 @@ const page = () => {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://localhost:8080/api/svg/convert", {
+      const response = await fetch(`${API_URL}/api/svg/convert`, {
         method: "POST",
         body: formData,
       });
@@ -56,11 +58,17 @@ const page = () => {
           </button>
 
           {/* Display PNG & Download */}
-          {pngUrl && (
+          {PngUrl && (
             <div className="mt-6">
-              <img src={pngUrl} alt="Converted PNG" className="border shadow-lg mx-auto" />
+              <Image 
+                src={PngUrl} 
+                alt="Converted PNG" 
+                width={200}
+                height={200} 
+                className="border shadow-lg mx-auto"
+              />
               <a
-                href={pngUrl}
+                href={PngUrl}
                 download="converted.png"
                 className="mt-4 inline-block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
               >
@@ -74,4 +82,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

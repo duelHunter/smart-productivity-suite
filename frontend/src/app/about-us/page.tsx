@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
     <section>
         <Navbar/>
@@ -31,4 +31,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
